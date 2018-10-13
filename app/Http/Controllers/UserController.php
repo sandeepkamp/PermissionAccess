@@ -59,10 +59,10 @@ class UserController extends Controller
             'password'=>'required|min:6|confirmed'
         ]);
 
-        $user = User::create($request->only('email', 'name', 'password')); //Retrieving only the email and password data
+        $user = User::create($request->only('email', 'name', 'password')); 
 
-        $roles = $request['roles']; //Retrieving the roles field
-    //Checking if a role was selected
+        $roles = $request['roles']; 
+  
         if (isset($roles)) {
 
             foreach ($roles as $role) {
@@ -118,15 +118,15 @@ class UserController extends Controller
             'email'=>'required|email|unique:users,email,'.$id,
             'password'=>'required|min:6|confirmed'
         ]);
-        $input = $request->only(['name', 'email', 'password']); //Retreive the name, email and password fields
-        $roles = $request['roles']; //Retreive all roles
+        $input = $request->only(['name', 'email', 'password']); 
+        $roles = $request['roles'];
         $user->fill($input)->save();
 
         if (isset($roles)) {        
-            $user->roles()->sync($roles);  //If one or more role is selected associate user to roles          
+            $user->roles()->sync($roles);           
         }        
         else {
-            $user->roles()->detach(); //If no role is selected remove exisiting role associated to a user
+            $user->roles()->detach(); 
         }
         return redirect()->route('users.index')
             ->with('flash_message',
